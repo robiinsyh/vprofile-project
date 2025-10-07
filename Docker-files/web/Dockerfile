@@ -1,0 +1,5 @@
+FROM nginx:latest
+LABEL Author="Robiansyah"
+
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginvproapp.conf /etc/nginx/conf.d/nginvproapp.conf

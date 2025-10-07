@@ -1,0 +1,63 @@
+services:
+  vproapp:
+    depends_on:
+      - vprodb
+    build: app/.
+    ports:
+      - "8990:8080"
+    restart: always
+    networks:
+      vpro-net:
+        ipv4_address: 172.19.0.2
+        
+  vprodb:
+    build: db/.
+    volumes:
+      - vprov:/var/lib/mysql
+    restart: always
+    networks:
+      vpro-net:
+        ipv4_address: 172.19.0.3
+
+  proxy:
+    build: web/.
+    ports:
+      - "80:80"
+    restart: always
+    networks:
+      vpro-net:
+        ipv4_address: 172.19.0.4
+
+  vpromq:
+    image: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbituser
+      - RABBITMQ_DEFAULT_PASS=rabbitpass
+    ports:
+      - "5672:5672"
+    restart: always
+    networks:
+      vpro-net:
+        ipv4_address: 172.19.0.5
+  
+  vprocache:
+    image: memcached
+    restart: always
+    ports:
+      - "1121:1121"
+    networks:
+      vpro-net:
+        ipv4_address: 172.19.0.6
+
+volumes:
+  vprov:
+
+networks:
+  vpro-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/24
+          gateway: 172.19.0.1
+  
+
