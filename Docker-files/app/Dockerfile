@@ -5,6 +5,7 @@ RUN git clone https://github.com/robiinsyh/vprofile-project.git
 RUN cd vprofile-project && git checkout containers && mvn install
 
 FROM tomcat:10-jdk21
+RUN apt update && apt install nano iputils-ping -y
 RUN rm -rf /usr/local/tomcat/webapps/*
 COPY --from=BUILD_IMAGE vprofile-project/target/vprofile-v2.war /usr/local/tomcat/webapps/ROOT.war
 
