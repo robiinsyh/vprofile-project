@@ -16,7 +16,7 @@ pipeline {
         NEXUS_CREDENTIAL_ID = "nexuslogin"
         ARTVERSION = "${env.BUILD_ID}"
     }
-	
+	//Testod
     stages{
         
         stage('BUILD'){
