@@ -1,9 +1,12 @@
 name: build flow
 on:
-  push:
-    branches:
-      - local
-  workflow_dispatch:
+ # push:
+ #   branches:
+ #     - local
+   pull_request:
+     branches:
+       - local
+   workflow_dispatch:
 
 jobs:
   Build:
@@ -11,6 +14,8 @@ jobs:
     steps:
       - name: code checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
       - name: maven build
         run: mvn install
@@ -21,6 +26,8 @@ jobs:
     steps:
       - name: code checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: runt test on main branches
         run: mvn test
